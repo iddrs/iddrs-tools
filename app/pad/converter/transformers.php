@@ -81,3 +81,13 @@ function valor_extra(string $value): float {
     $decimal = (int) mb_substr($value, mb_strlen($value)-3, 2);
     return (float) $sinal.$inteiro.'.'.$decimal;
 }
+
+function to_nro(string $value): string {
+    if($value[0] === '7') {
+        $value[0] = '1';
+    }
+    elseif($value[0] === '8') {
+        $value[0] = '2';
+    }
+    return $value;
+}

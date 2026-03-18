@@ -696,3 +696,58 @@ function ds_alteracao_orcamentaria_filler(array $data): array {
     
     return $data;
 }
+
+function classe_receita_filler(array $data): array {
+    if($data['cd_deducao'] > 0) {
+        $data['classe_receita'] = 'dedutora';
+        return $data;
+    } 
+    switch ($data['cd_receita'][0]){
+        case '7':
+        case '8':
+            $classe = 'intra';
+            break;
+        default:
+            $classe = 'normal';
+    }
+    $data['classe_receita'] = $classe;
+    return $data;
+}
+
+function tp_receita_filler(array $data): array {
+    $data['tp_receita'] = (int) $data['cd_receita'][13];
+    return $data;
+}
+
+function ds_tp_receita_filler(array $data): array {
+    switch ($data['tp_receita']){
+        case 1:
+            $tp = 'Principal';
+            break;
+        case 2:
+            $tp = 'MJM do principal';
+            break;
+        case 3:
+            $tp = 'Dívida Ativa';
+            break;
+        case 4:
+            $tp = 'MJM da Dívida Ativa';
+            break;
+        case 5:
+            $tp = 'Multa do principal';
+            break;
+        case 6:
+            $tp = 'Juros do principal';
+            break;
+        case 7:
+            $tp = 'Multa da Dívida Ativa';
+            break;
+        case 8:
+            $tp = 'Juros da Dívida Ativa';
+            break;
+        default:
+            $tp = 'Agregadora';
+    }
+    $data['ds_tp_receita'] = $tp;
+    return $data;
+}

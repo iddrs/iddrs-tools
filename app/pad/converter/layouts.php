@@ -410,7 +410,11 @@ function bal_rec(): array {
             \pad\converter\field\remessa(),
             \pad\converter\field\entidade(),
             \pad\converter\field\nro(1, 20),
-            \pad\converter\field\ds_nro(55, 170),
+            \pad\converter\field\cd_receita(1, 20),
+            \pad\converter\field\ds_receita(55, 170),
+            \pad\converter\field\classe_receita(0, 0),
+            \pad\converter\field\tp_receita(0, 0),
+            \pad\converter\field\ds_tp_receita(0, 0,),
             \pad\converter\field\cd_orgao(21, 2),
             \pad\converter\field\nm_orgao(0, 0),
             \pad\converter\field\cd_uniorcam(21, 4),
@@ -437,7 +441,10 @@ function bal_rec(): array {
             'ds_deducao_filler',
             'ds_co_filler',
             'ds_detalhe_tce_filler',
-            'calc_a_arrecadar_filler'
+            'calc_a_arrecadar_filler',
+            'classe_receita_filler',
+            'tp_receita_filler',
+            'ds_tp_receita_filler',
         ]
     ];
 }
@@ -449,7 +456,11 @@ function receita(): array {
             \pad\converter\field\remessa(),
             \pad\converter\field\entidade(),
             \pad\converter\field\nro(1, 20),
-            \pad\converter\field\ds_nro(0, 0),
+            \pad\converter\field\cd_receita(1, 20),
+            \pad\converter\field\ds_receita(0, 0),
+            \pad\converter\field\classe_receita(0, 0),
+            \pad\converter\field\tp_receita(0, 0),
+            \pad\converter\field\ds_tp_receita(0, 0,),
             \pad\converter\field\cd_orgao(21, 2),
             \pad\converter\field\nm_orgao(0, 0),
             \pad\converter\field\cd_uniorcam(21, 4),
@@ -516,7 +527,10 @@ function receita(): array {
             'ds_deducao_filler',
             'ds_co_filler',
             'ds_detalhe_tce_filler',
-            'receita_filler'
+            'receita_filler',
+            'classe_receita_filler',
+            'tp_receita_filler',
+            'ds_tp_receita_filler',
         ]
     ];
 }

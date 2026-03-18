@@ -22,7 +22,7 @@ use function pad\converter\post\ds_fr_lancont;
 use function pad\converter\post\ds_fr_rd_extra;
 use function pad\converter\post\ds_fr_receita;
 use function pad\converter\post\ds_fr_reducao;
-use function pad\converter\post\ds_receita_receita;
+use function pad\converter\post\ds_nro_receita;
 use function pad\converter\post\ds_rubrica_empenho;
 use function pad\converter\post\empenho_liquidacao;
 use function pad\converter\post\empenho_pagamento;
@@ -54,7 +54,6 @@ use function pad\converter\post\nm_uniorcam_lancont;
 use function pad\converter\post\nm_uniorcam_rd_extra;
 use function pad\converter\post\nm_uniorcam_receita;
 use function str_starts_with;
-use function support\db\db;
 use function support\log\debug;
 use function support\log\emergency;
 use function support\log\error;
@@ -118,7 +117,7 @@ function post(int $remessa): void {
     nm_orgao_bal_rec($remessa);
     nm_uniorcam_bal_rec($remessa);
     ds_fr_bal_rec($remessa);
-    ds_receita_receita($remessa);
+    ds_nro_receita($remessa);
     nm_orgao_receita($remessa);
     nm_uniorcam_receita($remessa);
     ds_fr_receita($remessa);
@@ -335,3 +334,15 @@ function get_files(array $sources): array {
     return $files;
 }
 
+function db(?string $dsn = null): PDO {
+    static $pdo = null;
+    if (is_null($pdo)) {
+        debug('Conectado ao banco de dados...', [$dsn]);
+        if (is_null($dsn)) {
+            emergency('DSN para conexão ao banco de dados de destino não pode ser nulo.');
+            exit;
+        }
+        $pdo = new PDO($dsn);
+    }
+    return $pdo;
+}

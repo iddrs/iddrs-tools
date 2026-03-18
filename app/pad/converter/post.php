@@ -2,8 +2,7 @@
 
 namespace pad\converter\post;
 
-use function pad\converter\db;
-use function support\log\debug;
+use function support\db\db;
 use function support\log\info;
 
 function nm_orgao_uniorcam(int $remessa) {
@@ -453,13 +452,13 @@ function ds_fr_bal_rec(int $remessa) {
     $stmt->execute();
 }
 
-function ds_nro_receita(int $remessa) {
-    info('Preenchendo ds_nro em receita...');
+function ds_receita_receita(int $remessa) {
+    info('Preenchendo ds_receita em receita...');
     $sql = <<<SQL
             UPDATE receita
-            SET ds_nro = bal_rec.ds_nro
+            SET ds_receita = bal_rec.ds_receita
             FROM bal_rec
-            WHERE receita.nro = bal_rec.nro
+            WHERE receita.cd_receita = bal_rec.cd_receita
             AND receita.remessa = bal_rec.remessa
             AND receita.remessa = $remessa
             SQL;

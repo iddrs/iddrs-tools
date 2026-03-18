@@ -428,12 +428,33 @@ function ds_financeiro_permanente(int $start, int $lenght, string $dtype = 'TEXT
 }
 
 function nro(int $start, int $lenght, string $dtype = 'TEXT', string $id = 'nro'): array {
+    $transformers = ['to_nro', 'fmt_nro'];
+    return [$id, $start, $lenght, $dtype, $transformers];
+}
+
+function cd_receita(int $start, int $lenght, string $dtype = 'TEXT', string $id = 'cd_receita'): array {
     $transformers = ['fmt_nro'];
     return [$id, $start, $lenght, $dtype, $transformers];
 }
 
-function ds_nro(int $start, int $lenght, string $dtype = 'TEXT', string $id = 'ds_nro'): array {
+
+function ds_receita(int $start, int $lenght, string $dtype = 'TEXT', string $id = 'ds_receita'): array {
     $transformers = ['trim_str'];
+    return [$id, $start, $lenght, $dtype, $transformers];
+}
+
+function classe_receita(int $start, int $lenght, string $dtype = 'TEXT', string $id = 'classe_receita'): array {
+    $transformers = [];
+    return [$id, $start, $lenght, $dtype, $transformers];
+}
+
+function tp_receita(int $start, int $lenght, string $dtype = 'INTEGER', string $id = 'tp_receita'): array {
+    $transformers = [];
+    return [$id, $start, $lenght, $dtype, $transformers];
+}
+
+function ds_tp_receita(int $start, int $lenght, string $dtype = 'TEXT', string $id = 'ds_tp_receita'): array {
+    $transformers = [];
     return [$id, $start, $lenght, $dtype, $transformers];
 }
 
