@@ -47,7 +47,7 @@ function fmt_cc(string $value): string {
 function valor_sinal(string $value): float {
     $sinal = $value[mb_strlen($value)-1];
     $inteiro = (int) mb_substr($value, 0, mb_strlen($value)-3);
-    $decimal = (int) mb_substr($value, mb_strlen($value)-3, 2);
+    $decimal = (string) mb_substr($value, mb_strlen($value)-3, 2);
     return (float) $sinal.$inteiro.'.'.$decimal;
 }
 
@@ -60,9 +60,7 @@ function to_upper(string $value): string {
 }
 
 function valor(string $value): float {
-    $inteiro = (int) mb_substr($value, 0, mb_strlen($value)-2);
-    $decimal = (int) mb_substr($value, mb_strlen($value)-2, 2);
-    return (float) $inteiro.'.'.$decimal;
+    return (float) round((int) $value / 100, 2);
 }
 
 function fmt_nro(string $value): string {
@@ -76,10 +74,9 @@ function fmt_elemento(string $value): string {
 }
 
 function valor_extra(string $value): float {
-    $sinal = $value[mb_strlen($value)-1];
-    $inteiro = (int) mb_substr($value, 0, mb_strlen($value)-3);
-    $decimal = (int) mb_substr($value, mb_strlen($value)-3, 2);
-    return (float) $sinal.$inteiro.'.'.$decimal;
+    $sinal = array_last(str_split($value, 1));
+    $numero = round((int) mb_substr($value, 0, 13) / 100, 2);
+    return (float) "{$sinal}{$numero}";
 }
 
 function to_nro(string $value): string {

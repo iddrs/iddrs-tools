@@ -3,6 +3,7 @@
 namespace pad\converter\post;
 
 use function support\db\db;
+use function support\log\debug;
 use function support\log\info;
 
 function nm_orgao_uniorcam(int $remessa) {
@@ -805,6 +806,205 @@ function ds_fr_reducao(int $remessa) {
             AND creditos.remessa = $remessa
             SQL;
     
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+}
+
+function ementario_receita(int $remessa) {
+    info('Montando ementário da receita...');
+    debug('Criando tabela', ['ementario_receita']);
+    $sql = <<<SQL
+            CREATE TABLE IF NOT EXISTS ementario_receita
+            (
+                remessa INTEGER,
+                nro TEXT,
+                cd_receita TEXT,
+                ds_receita TEXT,
+                classe_receita TEXT,
+                tp_receita INTEGER,
+                ds_tp_receita TEXT,
+                tp_nivel TEXT,
+                nr_nivel INTEGER,
+                cd_deducao INTEGER,
+                ds_deducao TEXT,
+                exercicio_fr INTEGER,
+                ds_exercicio_fr TEXT,
+                fr INTEGER,
+                ds_fr TEXT,
+                co INTEGER,
+                ds_co TEXT,
+                cd_detalhe_tce INTEGER,
+                ds_detalhe_tce TEXT
+            )
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Apagando dados antigos', ['ementario_receita']);
+    $sql = <<<SQL
+            DELETE FROM ementario_receita WHERE remessa = $remessa
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Inserindo novos dados', ['ementario_receita']);
+    $sql = <<<SQL
+            INSERT INTO ementario_receita (
+                remessa,
+                nro,
+                cd_receita,
+                ds_receita,
+                classe_receita,
+                tp_receita,
+                ds_tp_receita,
+                tp_nivel,
+                nr_nivel,
+                cd_deducao,
+                ds_deducao,
+                exercicio_fr,
+                ds_exercicio_fr,
+                fr,
+                ds_fr,
+                co,
+                ds_co,
+                cd_detalhe_tce,
+                ds_detalhe_tce
+            )
+            SELECT
+                remessa,
+                nro,
+                cd_receita,
+                ds_receita,
+                classe_receita,
+                tp_receita,
+                ds_tp_receita,
+                tp_nivel,
+                nr_nivel,
+                cd_deducao,
+                ds_deducao,
+                exercicio_fr,
+                ds_exercicio_fr,
+                fr,
+                ds_fr,
+                co,
+                ds_co,
+                cd_detalhe_tce,
+                ds_detalhe_tce
+            FROM bal_rec o
+            WHERE o.remessa = $remessa;
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Apagando receitas sintéticas', ['bal_rec']);
+    $sql = <<<SQL
+            DELETE FROM bal_rec WHERE remessa = $remessa AND tp_nivel LIKE 'S'
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Apagando receitas sintéticas', ['receita']);
+    $sql = <<<SQL
+            DELETE FROM receita WHERE remessa = $remessa AND tp_nivel LIKE 'S'
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+}
+
+function pcasp(int $remessa) {
+    info('Montando pcasp...');
+    debug('Criando tabela', ['pcasp']);
+    $sql = <<<SQL
+            CREATE TABLE IF NOT EXISTS pcasp
+            (
+                remessa,
+                conta_contabil TEXT,
+                nm_conta_contabil TEXT,
+                tp_nivel TEXT,
+                nr_nivel INTEGER,
+                escrituravel TEXT,
+                natureza_informacao TEXT,
+                ds_natureza_informacao TEXT,
+                financeiro_permanente TEXT,
+                ds_financeiro_permanente TEXT,
+                exercicio_fr INTEGER,
+                ds_exercicio_fr TEXT,
+                fr INTEGER,
+                ds_fr TEXT,
+                co INTEGER,
+                ds_co TEXT,
+                cd_detalhe_tce INTEGER,
+                ds_detalhe_tce TEXT
+            )
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Apagando dados antigos', ['pcasp']);
+    $sql = <<<SQL
+            DELETE FROM pcasp WHERE remessa = $remessa
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Inserindo novos dados', ['pcasp']);
+    $sql = <<<SQL
+            INSERT INTO pcasp (
+                remessa,
+                conta_contabil,
+                nm_conta_contabil,
+                tp_nivel,
+                nr_nivel,
+                escrituravel,
+                natureza_informacao,
+                ds_natureza_informacao,
+                financeiro_permanente,
+                ds_financeiro_permanente,
+                exercicio_fr,
+                ds_exercicio_fr,
+                fr,
+                ds_fr,
+                co,
+                ds_co,
+                cd_detalhe_tce,
+                ds_detalhe_tce
+            )
+            SELECT
+                remessa,
+                conta_contabil,
+                nm_conta_contabil,
+                tp_nivel,
+                nr_nivel,
+                escrituravel,
+                natureza_informacao,
+                ds_natureza_informacao,
+                financeiro_permanente,
+                ds_financeiro_permanente,
+                exercicio_fr,
+                ds_exercicio_fr,
+                fr,
+                ds_fr,
+                co,
+                ds_co,
+                cd_detalhe_tce,
+                ds_detalhe_tce
+            FROM bal_ver o
+            WHERE o.remessa = $remessa;
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Apagando contas escrituráveis', ['bal_ver']);
+    $sql = <<<SQL
+            DELETE FROM bal_ver WHERE remessa = $remessa AND escrituravel LIKE 'N'
+            SQL;
+    $stmt = db()->prepare($sql);
+    $stmt->execute();
+    
+    debug('Apagando contas escrituráveis', ['bver_enc']);
+    $sql = <<<SQL
+            DELETE FROM bver_enc WHERE remessa = $remessa AND escrituravel LIKE 'N'
+            SQL;
     $stmt = db()->prepare($sql);
     $stmt->execute();
 }

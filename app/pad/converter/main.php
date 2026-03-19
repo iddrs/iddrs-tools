@@ -5,7 +5,6 @@ namespace pad\converter;
 use Coduo\PHPHumanizer\DateTimeHumanizer;
 use Coduo\PHPHumanizer\NumberHumanizer;
 use DateTimeImmutable;
-use PDO;
 use function mb_strlen;
 use function mb_strtolower;
 use function mb_substr;
@@ -24,6 +23,7 @@ use function pad\converter\post\ds_fr_receita;
 use function pad\converter\post\ds_fr_reducao;
 use function pad\converter\post\ds_receita_receita;
 use function pad\converter\post\ds_rubrica_empenho;
+use function pad\converter\post\ementario_receita;
 use function pad\converter\post\empenho_liquidacao;
 use function pad\converter\post\empenho_pagamento;
 use function pad\converter\post\nm_conta_contabil_cta_disp;
@@ -53,10 +53,10 @@ use function pad\converter\post\nm_uniorcam_empenho;
 use function pad\converter\post\nm_uniorcam_lancont;
 use function pad\converter\post\nm_uniorcam_rd_extra;
 use function pad\converter\post\nm_uniorcam_receita;
+use function pad\converter\post\pcasp;
 use function str_starts_with;
 use function support\db\db;
 use function support\log\debug;
-use function support\log\emergency;
 use function support\log\error;
 use function support\log\info;
 use function support\log\notice;
@@ -141,6 +141,8 @@ function post(int $remessa): void {
     ds_fr_rd_extra($remessa);
     ds_fr_credito($remessa);
     ds_fr_reducao($remessa);
+    ementario_receita($remessa);
+    pcasp($remessa);
 }
 
 function detect_entidade(array $data): array {
