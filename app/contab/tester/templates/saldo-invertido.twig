@@ -20,6 +20,10 @@
             <td class="right">{{ item.saldo_final|format_currency_number(locale: 'pt-br') }}</td>
             <td class="center">{{ item.natureza_encontrada }}</td>
         </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Sem saldos invertidos encontrados.</td>
+            </tr>
         {% endfor %}
     </tbody>
 </table>    
