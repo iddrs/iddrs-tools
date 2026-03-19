@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset=”utf-8″>
+{#    <meta name="author" content="Symfony" />#}
+    <meta name="language" content="pt-br" />
+    {#<meta name="copyright" content="Symfony" />
+    <meta name="publisher" content="Symfony" />
+    <meta name="description"
+          content="Twig - The flexible, fast, and secure template engine for PHP" />#}
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <title>{{ title }}</title>
+    
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: 12pt;
+        }
+        
+        .pagebreak {
+            break-after: page;
+        }
+        
+        .header {
+            margin-top: 24pt;
+            margin-bottom: 24pt;
+        }
+        
+        .summary {
+            
+        }
+        
+        .summary .title {
+            
+        }
+        
+        .summary .list {
+            
+        }
+        
+        .summary .list li {
+            list-style-type: none;
+        }
+        
+        .resume {
+            font-weight: bolder;
+        }
+        
+        hr {
+            border-style: solid;
+            border-width: 1px;
+            border-collapse: collapse;
+        }
+        
+        .footer {
+            font-style: italic;
+        }
+        
+        .test {
+            
+        }
+        
+        .test .title {
+            
+        }
+        
+        .test .testid {
+            font-style: italic;
+        }
+        
+        .test .explain {
+            border: black solid 1px;
+            border-collapse: collapse;
+        }
+        
+        .test .explain * {
+            border: black solid 1px;
+            border-collapse: collapse;
+        }
+        
+        .test .explain td, .test .explain th {
+            padding: 8pt;
+        }
+        
+        .test .explain tbody tr:hover {
+            background-color: lightgray;
+        }
+        
+        .test .explain {
+            text-align: left;
+        }
+        
+        .right {
+            text-align: right;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="title">{{ title }}</h1>
+        <h2 class="entidade">Entidade: {{ entidade }}</h2>
+        <h2 class="remessa">Remessa: {{ remessa }}</h2>
+    </header>
+    
+    <aside class="summary">
+        <h3 class="title">Testes realizados</h3>
+        <ul class="list">
+        {% for testId, test in testResults %}
+            <li>
+                {% if test.success %}
+                    <span>🟢</span>
+                {% else %}
+                    <span>🔴</span>
+                {% endif%}
+                <a id="summary_{{ testId }}" href="#test_{{ testId }}">{{ test.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </aside>
+    
+    <table class="resume">
+        <tr>
+            <td>🔵 Total de testes: {{ total_tests }}</td>
+            <td>🟢 Passou: {{ tests_success }} ({{ (tests_success / total_tests)|format_percent_number() }})</td>
+            <td>🔴 Falhas: {{ tests_fail }} ({{ (tests_fail / total_tests)|format_percent_number() }})</td>
+        </tr>
+    </table>
+
+        
+    {%  for test in testResults %}
+        {{ test.html }}
+        <footer class="footer">
+            <p>
+                Teste gerado em {{ date|format_datetime(locale: 'pt-br', timezone: 'America/Sao_Paulo') }}.
+            </p>
+        </footer>
+        <div class="pagebreak"></div>
+    {% endfor %}
+    
+</body>
+</html>

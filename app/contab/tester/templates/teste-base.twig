@@ -1,0 +1,17 @@
+<div class="test">
+    <a id="test_{{ testId }}"></a>
+    <h1 class="title">
+        {% if testSuccess %}
+            <span>🎉</span>
+        {% else %}
+            <span>⛔</span>
+        {%  endif %}
+        {{ testTitle }}
+    </h1>
+    <p class="testid">{{ testId }}</p>
+
+    {% block content %}{% endblock %}
+
+    <a href="#summary_{{ testId }}">↑ Sumário</a>
+    <hr>
+</div>

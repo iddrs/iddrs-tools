@@ -1,17 +1,19 @@
 <?php
 
 use App\Command\PadConvertCommand;
+use App\Command\TestesContabilidadeCommand;
 use Dotenv\Dotenv;
 use GetOpt\ArgumentException;
 use GetOpt\ArgumentException\Missing;
 use GetOpt\GetOpt;
+use NunoMaduro\Collision\Provider;
 
 require_once __DIR__.'/vendor/autoload.php';
 
 define('NAME', 'IDDRS');
-define('VERSION', '0.0.1');
+define('VERSION', '1.0.0');
 
-(new \NunoMaduro\Collision\Provider)->register();
+(new Provider)->register();
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -19,6 +21,7 @@ $dotenv->load();
 $getopt = new GetOpt();
 
 $getopt->addCommand(new PadConvertCommand());
+$getopt->addCommand(new TestesContabilidadeCommand());
 
 try {
     try {

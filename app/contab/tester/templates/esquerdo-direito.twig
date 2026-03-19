@@ -1,0 +1,45 @@
+{% extends "teste-base.twig" %}
+
+{% set total_esquerdo = 0.0 %}
+{% set total_direito = 0.0 %}
+{% block content %}
+    <table class="explain">
+    <thead>
+        <tr>
+            <th>SQL</th>
+            <th class="right">Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sql, valor in esquerdo %}
+        <tr>
+            <td>{{ sql }}</td>
+            <td class="right">{{ valor|format_currency_number(locale: 'pt-br') }}</td>
+        </tr>
+        {% set total_esquerdo = total_esquerdo + valor %}
+        {% endfor %}
+        <tr>
+            <th class="right">Subtotal A</th>
+            <th class="right">{{ total_esquerdo|format_currency_number(locale: 'pt-br') }}</th>
+        </tr>
+        
+        {% for sql, valor in direito %}
+        <tr>
+            <td>{{ sql }}</td>
+            <td class="right">{{ valor|format_currency_number(locale: 'pt-br') }}</td>
+        </tr>
+        {% set total_direito = total_direito + valor %}
+        {% endfor %}
+        <tr>
+            <th class="right">Subtotal B</th>
+            <th class="right">{{ total_direito|format_currency_number(locale: 'pt-br') }}</th>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th class="right">Diferença</th>
+            <th class="right">{{ (total_esquerdo - total_direito)|round(2)|format_currency_number(locale: 'pt-br') }}</th>
+        </tr>
+    </tfoot>
+</table>    
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "teste-base.twig" %}
+
+{% block content %}
+    <table class="explain">
+    <thead>
+        <tr>
+            <th>Conta contábil</th>
+            <th>Especificação</th>
+            <th class="center">Natureza esperada</th>
+            <th class="right">Saldo final</th>
+            <th class="center">Natureza encontrada</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in diferencas %}
+        <tr>
+            <td>{{ item.conta_contabil }}</td>
+            <td>{{ item.nm_conta_contabil }}</td>
+            <td class="center">{{ item.natureza_esperada }}</td>
+            <td class="right">{{ item.saldo_final|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="center">{{ item.natureza_encontrada }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+{% endblock %}

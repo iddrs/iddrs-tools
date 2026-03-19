@@ -21,7 +21,9 @@
         "bramus/monolog-colored-line-formatter": "~3.1",
         "ext-ds": "^1.6",
         "everton3x/autoload-files-plugin": "^1.0",
-        "coduo/php-humanizer": "^5.0"
+        "coduo/php-humanizer": "^5.0",
+        "twig/twig": "^3.24",
+        "twig/intl-extra": "^3.24"
     },
     "config": {
         "allow-plugins": {
