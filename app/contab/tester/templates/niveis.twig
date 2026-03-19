@@ -1,0 +1,30 @@
+{% extends "teste-base.twig" %}
+
+{% block content %}
+    <table class="explain">
+    <thead>
+        <tr>
+            <th>Conta Contábil 1</th>
+            <th class="right">Saldo final 1</th>
+            <th>Conta Contábil 2</th>
+            <th class="right">Saldo final 2</th>
+            <th class="right">Diferença</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in diferencas %}
+        <tr>
+            <td>{{ item.conta_contabil_e }}</td>
+            <td class="right">{{ item.saldo_final_e|format_currency_number(locale: 'pt-br') }}</td>
+            <td>{{ item.conta_contabil_d }}</td>
+            <td class="right">{{ item.saldo_final_d|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.diferenca|format_currency_number(locale: 'pt-br') }}</td>
+        </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Sem diferenças encontradas.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+{% endblock %}
