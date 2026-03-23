@@ -11,7 +11,7 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
     
     $name = 'Correspondência de saldos entre os níveis das contas orçamentárias e de controle';
     $testId = test_name(__FILE__);
-    $success = false;
+    $success = true;
     
     $pcasp = niveis_contas_contabeis();
     $lista = [];//lista com as contas contábeis
@@ -57,7 +57,7 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
         ];
     }
     
-    $diferencas = [];
+    $resultado = [];
     
     foreach ($lista as $item){
         // busca os saldos finais
@@ -83,10 +83,9 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
         SQL;
         $saldo_final_d = get_value_for_test($sql);
                 
-        // se tudo certo, só continua
-        if(round($saldo_final_e, 2) === round($saldo_final_d, 2)) continue;
+        if(round($saldo_final_e, 2) !== round($saldo_final_d, 2)) $success = false;
         
-        $diferencas[] = [
+        $resultado[] = [
             'conta_contabil_e' => $item['cc_e'],
             'saldo_final_e' => $saldo_final_e,
             'conta_contabil_d' => $item['cc_d'],
@@ -95,7 +94,6 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
         ];
     }
     
-    if(count($diferencas) === 0) $success = true;
     
     $result[$testId] = [
         'name' => $name,
@@ -104,7 +102,7 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
             'testId' => $testId,
             'testTitle' => $name,
             'testSuccess' => $success,
-            'diferencas' => $diferencas,
+            'contas' => $resultado,
         ])
     ];
     

@@ -48,7 +48,7 @@ function valor_sinal(string $value): float {
     $sinal = $value[mb_strlen($value)-1];
     $inteiro = (int) mb_substr($value, 0, mb_strlen($value)-3);
     $decimal = (string) mb_substr($value, mb_strlen($value)-3, 2);
-    return (float) $sinal.$inteiro.'.'.$decimal;
+    return (float) ($sinal.$inteiro.'.'.$decimal);
 }
 
 function extract_data(string $value): string {

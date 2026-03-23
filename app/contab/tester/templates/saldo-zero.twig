@@ -1,0 +1,24 @@
+{% extends "teste-base.twig" %}
+
+{% block content %}
+    <table class="explain">
+    <thead>
+        <tr>
+            <th>Conta contábil</th>
+            <th class="right">Saldo final</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for k, v in contas %}
+        <tr>
+            <td>{{ k }}</td>
+            <td class="right">{{ v|format_currency_number(locale: 'pt-br') }}</td>
+        </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Sem problemas encontrados.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+{% endblock %}

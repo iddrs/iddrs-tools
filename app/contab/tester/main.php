@@ -5,15 +5,17 @@ namespace contab\tester;
 use Coduo\PHPHumanizer\DateTimeHumanizer;
 use Coduo\PHPHumanizer\NumberHumanizer;
 use DateTimeImmutable;
+use PDO;
 use Twig\Environment;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 use function support\db\db;
 use function support\log\critical;
 use function support\log\debug;
-use function support\log\error;
+use function support\log\emergency;
 use function support\log\info;
 use function support\log\notice;
+use function support\log\warning;
 
 function main(string $dbPath, string $reportPath, int $remessa, string $entidade, string $perfil): void {
     $start_time = new DateTimeImmutable();
@@ -23,6 +25,8 @@ function main(string $dbPath, string $reportPath, int $remessa, string $entidade
     info('Remessa:', [$remessa]);
     info('Entidade:', [$entidade]);
     info('Perfil:', [$perfil]);
+    
+    $entidade = get_entidade($entidade);
 
     db("sqlite:$dbPath"); //necessário para criar a conexão ao banco de dados
 
@@ -39,8 +43,8 @@ function main(string $dbPath, string $reportPath, int $remessa, string $entidade
     notice('Teste dos registros contábeis terminado.');
     
     info('Testes realizados', [count($result)]);
-    info('Testes que passaram', [$success]);
-    info('Testes que falharam', [count($result) - $success]);
+    info('Testes que passaram', [$success, sprintf('%.2f%%', $success / count($result) * 100)]);
+    info('Testes que falharam', [count($result) - $success, sprintf('%.2f%%', (count($result) - $success) / count($result) * 100)]);
     
     $end_time = new DateTimeImmutable();
     info("Tempo decorrido", [DateTimeHumanizer::preciseDifference($start_time, $end_time, 'pt_BR')]);
@@ -108,5 +112,30 @@ function save_results(Environment $templates, array $result, string $filepath, a
 
 function get_value_for_test(string $sql): float {
     $stmt = db()->query($sql);
-    return (float) $stmt->fetch(\PDO::FETCH_NUM)[0];
+    return (float) $stmt->fetch(PDO::FETCH_NUM)[0];
+}
+
+function get_entidade(string $entidade): string {
+    switch (strtolower($entidade)){
+        case 'pm':
+            return 'pm';
+        case 'cm':
+            return 'cm';
+        case 'fpsm':
+        case 'rpps':
+            return 'fpsm';
+        case 'mun':
+        case 'agregado':
+            return '%';
+        default :
+            emergency('Entidade inválida!', [$entidade]);
+            warning('Entidades permitidas', ['pm', 'cm', 'fpsm|rpps', 'mun|agregado']);
+            exit;
+    }
+}
+
+function get_valor_manual(string $entidade, int $remessa, string $key): float {
+    $filepath = __DIR__."/store/manual/$remessa/$entidade.php";
+    $data = require $filepath;
+    return $data[$key];
 }

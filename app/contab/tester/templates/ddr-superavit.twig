@@ -1,0 +1,34 @@
+{% extends "teste-base.twig" %}
+
+{% block content %}
+    <table class="explain">
+    <thead>
+        <tr>
+            <th>FR</th>
+            <th class="right">Saldo inicial</th>
+            <th class="right">(+)RP cancelados </th>
+            <th class="right">(-)Créditos abertos</th>
+            <th class="right">Saldo disponível</th>
+            <th class="right">Saldo final DDR</th>
+            <th class="right">Diferença</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in resultado %}
+        <tr>
+            <td>{{ item.fr }}</td>
+            <td class="right">{{ item.saldo_inicial|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.rp_cancelado|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.creditos|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.saldo_disponivel|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.saldo_final|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.diferenca|format_currency_number(locale: 'pt-br') }}</td>
+        </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">Sem diferenças encontradas.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+{% endblock %}
