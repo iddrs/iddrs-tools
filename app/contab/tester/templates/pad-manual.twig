@@ -1,0 +1,28 @@
+{% extends "teste-base.twig" %}
+
+{% block content %}
+    <table class="explain">
+    <thead>
+        <tr>
+            <th>Valor manual</th>
+            <th class="right">Valor</th>
+            <th class="right">Valor</th>
+            <th class="right">Diferença</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in resultado %}
+        <tr>
+            <td>{{ item.label }}</td>
+            <td class="right">{{ item.valor_manual|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.valor_pad|format_currency_number(locale: 'pt-br') }}</td>
+            <td class="right">{{ item.diferenca|format_currency_number(locale: 'pt-br') }}</td>
+        </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Sem diferenças encontradas.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>    
+{% endblock %}

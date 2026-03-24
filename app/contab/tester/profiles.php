@@ -79,3 +79,16 @@ function mensal(): array {
         ]
     ];
 }
+
+function pad(): array {
+    return [
+        'title' => 'Testes de consistência dos *.TXT do PAD',
+        'tests' => [
+            'pad-balver',
+            'pad-balrec',
+            'pad-baldesp',
+            'pad-decreto',
+            'pad-tce_4111',
+        ],
+    ];
+}
