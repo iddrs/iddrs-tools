@@ -6,7 +6,7 @@ use function contab\tester\test_name;
 
 return function(int $remessa, string $entidade, Environment $templates, array &$result): bool {
     
-    $name = 'Aporte para cobertura do déficit atuarial a pagar';
+    $name = 'Contribuição dos servidores ao RPPS a receber';
     $testId = test_name(__FILE__);
     $success = false;
     
@@ -14,10 +14,10 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
     $dtotal = 0.0;
     
     $sql = <<<SQL
-        select sum(saldo_final) 
+        select sum(saldo_final)
         from bal_ver 
-        where remessa = $remessa
-            and conta_contabil like '2.1.1.2.2.07.02.%';
+        where remessa = $remessa and entidade like 'fpsm' 
+            and conta_contabil like '1.1.3.6.2.01.02.%';
     SQL;
     $valor = get_value_for_test($sql);
     $etotal += $valor;
@@ -26,10 +26,10 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
     
     
     $sql = <<<SQL
-        select sum(liquidado_a_pagar) 
-        from bal_desp
+        select sum(saldo_final)
+        from bal_ver 
         where remessa = $remessa
-            and cd_elemento like '3.3.91.97';
+            and conta_contabil like '2.1.8.8.2.01.01.01.%';
     SQL;
     $valor = get_value_for_test($sql);
     $dtotal += $valor;

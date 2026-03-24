@@ -2,9 +2,9 @@
 
 return [
     // saldo final do relatório de saldos por conta do patrimônio
-    'patrimonio_saldo_final' =>  0.0,
+    'patrimonio_saldo_final' =>  18066907.72,
     // Saldo final do relatório de estoques
-    'estoque_saldo_final' =>  0.0,
+    'estoque_saldo_final' =>  794722.23,
     //restos a pagar: rp_np = não processado; rp_p = processado
     'rp_np_exe_ant' => 240123.50,
     'rp_np_ultimo_exe' => 914952.19,

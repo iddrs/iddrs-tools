@@ -19,7 +19,6 @@ function mensal(): array {
             'outros-congeneres-ativo-controle',
             'precatorios-cp-passivo-controle',
             'precatorios-lp-passivo-controle',
-            'aporte-atuarial-a-pagar',
             'rpps-patronal-a-pagar',
             'rgps-patronal-a-pagar',
             'rgps-patronal-autonomos-a-pagar',
@@ -100,7 +99,10 @@ function agregado(): array {
             'ativo-passivo-intra',
             'vpd-vpa-intra',
             'receita-despesa-intra',
-            
+            'aporte-atuarial-a-pagar',
+            'rpps-servidores-a-receber',
+            'rpps-patronal-normal-a-receber',
+            'rpps-amortizacao-deficit-a-receber',
         ],
     ];
 }

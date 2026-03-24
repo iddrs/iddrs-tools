@@ -6,7 +6,7 @@ use function contab\tester\test_name;
 
 return function(int $remessa, string $entidade, Environment $templates, array &$result): bool {
     
-    $name = 'Aporte para cobertura do déficit atuarial a pagar';
+    $name = 'Amortização do déficit atuarial a receber';
     $testId = test_name(__FILE__);
     $success = false;
     
@@ -14,10 +14,10 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
     $dtotal = 0.0;
     
     $sql = <<<SQL
-        select sum(saldo_final) 
+        select sum(saldo_final)
         from bal_ver 
-        where remessa = $remessa
-            and conta_contabil like '2.1.1.2.2.07.02.%';
+        where remessa = $remessa and entidade like 'fpsm' 
+            and conta_contabil like '1.1.3.6.2.04.01.%';
     SQL;
     $valor = get_value_for_test($sql);
     $etotal += $valor;
@@ -26,10 +26,20 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
     
     
     $sql = <<<SQL
-        select sum(liquidado_a_pagar) 
-        from bal_desp
+        select sum(valor_liquidacao)
+        from liquidacao
         where remessa = $remessa
-            and cd_elemento like '3.3.91.97';
+            and cd_rubrica like '3.3.91.97%'
+    SQL;
+    $valor = get_value_for_test($sql);
+    $dtotal += $valor;
+    $direito[$sql] = $valor;
+    
+    $sql = <<<SQL
+        select sum(valor_pagamento)*-1
+        from pagamento
+        where remessa = $remessa
+            and cd_rubrica like '3.3.91.97%'
     SQL;
     $valor = get_value_for_test($sql);
     $dtotal += $valor;

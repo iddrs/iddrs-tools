@@ -107,7 +107,7 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
     $resultado[$cc]['label'] = 'Crédito por redução entre entidades';
     $resultado[$cc]['valor_manual'] = \contab\tester\get_valor_manual($entidade, $remessa, $cc);
     $sql = <<<SQL
-        select sum(valor_credito) 
+        select sum(valor_credito+valor_reducao) 
         from creditos
         where remessa = $remessa and entidade like '$entidade'
             and cd_origem_recurso = 6
@@ -115,21 +115,6 @@ return function(int $remessa, string $entidade, Environment $templates, array &$
     $resultado[$cc]['valor_pad'] = get_value_for_test($sql);
     $resultado[$cc]['diferenca'] = round($resultado[$cc]['valor_manual'] - $resultado[$cc]['valor_pad'], 2);
     if($resultado[$cc]['diferenca'] !== 0.0) $success = false;
-    
-    $cc = 'credito_reducao_na_entidade';
-    $resultado[$cc]['label'] = 'Dotação cancelada';
-    $resultado[$cc]['valor_manual'] = \contab\tester\get_valor_manual($entidade, $remessa, $cc);
-    $sql = <<<SQL
-        select sum(valor_reducao) 
-        from creditos
-        where remessa = $remessa and entidade like '$entidade'
-    SQL;
-    $resultado[$cc]['valor_pad'] = get_value_for_test($sql);
-    $resultado[$cc]['diferenca'] = round($resultado[$cc]['valor_manual'] - $resultado[$cc]['valor_pad'], 2);
-    if($resultado[$cc]['diferenca'] !== 0.0) $success = false;
-
-    
-
     
     
     $result[$testId] = [
