@@ -92,3 +92,15 @@ function pad(): array {
         ],
     ];
 }
+
+function agregado(): array {
+    return [
+        'title' => 'Testes de consistência contábil agregados (independentes de entidade)',
+        'tests' => [
+            'ativo-passivo-intra',
+            'vpd-vpa-intra',
+            'receita-despesa-intra',
+            
+        ],
+    ];
+}
