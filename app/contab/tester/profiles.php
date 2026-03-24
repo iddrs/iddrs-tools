@@ -75,6 +75,7 @@ function mensal(): array {
             'ddr-liquidada',
             'ddr-retencoes',
 //            'ddr-superavit',// Este teste só funciona se as contas 6.3.1.9 e 6.3.2.9 tiverem a informação da FR correta
+            'ddr-exercicios-anteriores',
         ]
     ];
 }
